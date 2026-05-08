@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//A ver si se puede agregar un cambio
 void main() {
   runApp(const MyApp());
 }
@@ -7,27 +7,27 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // Este widget es la raíz de tu aplicación.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
+        // Este es el tema de tu aplicación.
         //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
+        // PRUEBA ESTO: Ejecuta tu aplicación con "flutter run". Verás
+        // que la aplicación tiene una barra de herramientas morada. Luego, sin
+        // cerrar la app, intenta cambiar el seedColor en el colorScheme de abajo
+        // a Colors.green y luego invoca "hot reload" (guarda tus cambios o presiona
+        // el botón "hot reload" en un IDE compatible con Flutter, o presiona "r"
+        // si usaste la línea de comandos para iniciar la app).
         //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
+        // Observa que el contador no se reinició a cero; el estado de la aplicación
+        // no se pierde durante la recarga. Para reiniciar el estado, usa hot
+        // restart en su lugar.
         //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
+        // Esto funciona para el código también, no solo para valores: La mayoría de los cambios de código
+        // pueden probarse con solo un hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -38,14 +38,14 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  // Este widget es la página principal de tu aplicación. Es stateful, lo que significa
+  // que tiene un objeto State (definido abajo) que contiene campos que afectan
+  // cómo se ve.
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  // Esta clase es la configuración para el estado. Contiene los valores (en este
+  // caso el título) proporcionados por el padre (en este caso el widget App) y
+  // usados por el método build del State. Los campos en una subclase de Widget son
+  // siempre marcados como "final".
 
   final String title;
 
