@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/home_content.dart';
 import 'utils/navigation_utils.dart';
+import 'widgets/expenses_content.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,10 +14,18 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   // Lista de vistas disponibles
-  final List<Widget> _views = [
+  /*final List<Widget> _views = [
     const HomeContent(),
     const Center(child: Text('Presupuesto')),
     const Center(child: Text('Gastos Espontáneos')),
+  ];
+  */
+  
+  // Lista de vistas disponibles actualizada
+  final List<Widget> _views = [
+    const HomeContent(),
+    const Center(child: Text('Presupuesto')),
+    const ExpensesContent(), // <-- Reemplazamos el "Center" anterior por nuestra nueva pantalla
   ];
 
   @override
