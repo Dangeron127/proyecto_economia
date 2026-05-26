@@ -1,31 +1,26 @@
-/*import 'package:flutter/material.dart';
-import 'widgets/home_content.dart';
-import 'utils/navigation_utils.dart';
-import 'widgets/expenses_content.dart';
+// lib/ui/screens/home_screen.dart
+import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+// REEMPLAZO DE IMPORTS: Apuntamos a la nueva estructura de carpetas
+import '../utils/navigation_utils.dart'; // Si moviste tus utils a ui/common
+import 'home_content.dart';               // Asumiendo que home_content también vive en ui/screens
+import 'expenses_screen.dart';           // Tu nueva pantalla ensamblada
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  // Lista de vistas disponibles
-  /*final List<Widget> _views = [
-    const HomeContent(),
-    const Center(child: Text('Presupuesto')),
-    const Center(child: Text('Gastos Espontáneos')),
-  ];
-  */
-  
-  // Lista de vistas disponibles actualizada
+  // Lista de vistas disponibles actualizada con la nueva pantalla estructurada
   final List<Widget> _views = [
     const HomeContent(),
     const Center(child: Text('Presupuesto')),
-    const ExpensesContent(), // <-- Reemplazamos el "Center" anterior por nuestra nueva pantalla
+    const ExpensesScreen(), // <-- Nueva pantalla de gastos espontáneos
   ];
 
   @override
@@ -36,7 +31,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: const CircleAvatar(child: Icon(Icons.person, size: 20)),
-            onPressed: () {}, // Acción para la foto de perfil
+            onPressed: () {}, 
           ),
         ],
       ),
@@ -59,5 +54,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-*/
