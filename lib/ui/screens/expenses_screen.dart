@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/formulario_gastos.dart';
 import '../components/selector_tipo_gasto.dart';
 import '../interactions/expenses_view_model.dart';
+import '../logic/finance_manager.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -21,9 +22,23 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       return;
     }
 
+    // 1. Convertimos el texto del TextField a un número (double)
+    final double? monto = double.tryParse(_interaction.amountController.text);
+
+    // 2. Verificamos que sí sea un número válido
+    if (monto != null && monto > 0) {
+      // Llamamos al cerebro para restar el dinero
+      FinanceManager().registrarGasto(monto);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ingresa un monto numérico válido'), backgroundColor: Colors.red),
+      );
+      return;
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Guardado en ${_interaction.categoriaSeleccionada}: ${_interaction.conceptController.text} (-\$${_interaction.amountController.text})'),
+        content: Text('Guardado en ${_interaction.categoriaSeleccionada}: ${_interaction.conceptController.text} (-\$${monto.toStringAsFixed(2)})'),
         backgroundColor: _interaction.activeColor,
       ),
     );
