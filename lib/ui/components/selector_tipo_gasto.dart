@@ -21,13 +21,13 @@ class SelectorTipoGasto extends StatelessWidget {
       child: Row(
         children: [
           _buildTab(
-            label: '💸 Espontáneos',
-            isActive: tipoSeleccionado == 'Espontáneo',
+            label: '✨ Mis Gustitos', // Lo que lee el usuario
+            isActive: tipoSeleccionado == 'Espontáneo', // La variable técnica
             activeColor: Colors.pink,
-            onTap: () => onTipoCambiado('Espontáneo'),
+            onTap: () => onTipoCambiado('Espontáneo'), // Lo que mandamos al controlador
           ),
           _buildTab(
-            label: '🏡 Fijos / Necesidades',
+            label: '🛡️ Para Sobrevivir',
             isActive: tipoSeleccionado == 'Fijo',
             activeColor: Colors.green,
             onTap: () => onTipoCambiado('Fijo'),
