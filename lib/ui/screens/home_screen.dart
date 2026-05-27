@@ -1,10 +1,9 @@
-// lib/ui/screens/home_screen.dart
 import 'package:flutter/material.dart';
 
-// REEMPLAZO DE IMPORTS: Apuntamos a la nueva estructura de carpetas
-import '../utils/navigation_utils.dart'; // Si moviste tus utils a ui/common
-import 'home_content.dart';               // Asumiendo que home_content también vive en ui/screens
-import 'expenses_screen.dart';           // Tu nueva pantalla ensamblada
+import '../utils/navigation_utils.dart'; 
+import 'home_content.dart';              
+import 'expenses_screen.dart';           
+import 'presupuesto_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,29 +15,46 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  // Lista de vistas disponibles actualizada con la nueva pantalla estructurada
-  final List<Widget> _views = [
-    const HomeContent(),
-    const Center(child: Text('Presupuesto')),
-    const ExpensesScreen(), // <-- Nueva pantalla de gastos espontáneos
+  // Lo convertimos en un "get" para poder inyectar la función de navegación
+  List<Widget> get _views => [
+    HomeContent(
+      // Esta es la magia: le pasamos una función que cambia al tab de Gastos (índice 2)
+      onBotonPanicoPresionado: () {
+        setState(() {
+          _selectedIndex = 2; 
+        });
+      },
+    ),
+    const PresupuestoScreen(),
+    const ExpensesScreen(), 
+    const Center(child: Text('Más opciones')),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi App Financiera'),
+        title: const Text('Mi App Financiera', style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
         actions: [
           IconButton(
-            icon: const CircleAvatar(child: Icon(Icons.person, size: 20)),
+            icon: const CircleAvatar(
+              backgroundColor: Colors.blueAccent,
+              child: Icon(Icons.person, size: 20, color: Colors.white)
+            ),
             onPressed: () {}, 
           ),
+          const SizedBox(width: 10),
         ],
       ),
       body: _views[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.blueAccent,
+        unselectedItemColor: Colors.grey,
         onTap: (index) => NavigationUtils.handleNavigation(
           index, 
           context, 
@@ -46,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.attach_money), label: 'Presupuesto'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Presupuesto'),
           BottomNavigationBarItem(icon: Icon(Icons.fastfood), label: 'Gastos'),
           BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Más'),
         ],

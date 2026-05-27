@@ -1,8 +1,13 @@
-class HomeViewModel {
-  // Datos simulados (En un futuro vendrán de lib/db o lib/logic)
-  double get saldoRestante => 10240.00;
-  double get recomendacionDiaria => 250.00;
+import '../../services/finance_service.dart';
 
-  // Aquí puedes meter funciones en el futuro como:
-  // void acariciarMascota() { ... }
+class HomeViewModel {
+  final FinanceService _financeService = FinanceService();
+
+  // Lee directamente los datos procesados matemáticamente
+  double get saldoRestante => _financeService.saldoDisponible;
+  
+  double get recomendacionDiaria => _financeService.racionDiaria;
+
+  // Este parámetro es el que le inyectaremos a tu componente MascotaPanel
+  String get emocionMascota => _financeService.estadoMascota;
 }

@@ -3,6 +3,8 @@ import '../components/formulario_gastos.dart';
 import '../components/selector_tipo_gasto.dart';
 import '../interactions/expenses_view_model.dart';
 import '../components/carrusel_supervivencia.dart';
+import '../../services/finance_service.dart';
+import '../components/historial_list.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -13,6 +15,7 @@ class ExpensesScreen extends StatefulWidget {
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
   final ExpensesViewModel _interaction = ExpensesViewModel();
+  final FinanceService _financeService = FinanceService();
 
   void _guardarGasto() {
     if (_interaction.conceptController.text.isEmpty || _interaction.amountController.text.isEmpty) {
@@ -21,10 +24,17 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       );
       return;
     }
+  double monto = double.tryParse(_interaction.amountController.text) ?? 0.0;
+
+  _financeService.registrarGasto(
+      _interaction.conceptController.text, 
+      monto, 
+      _interaction.categoriaSeleccionada
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Guardado en ${_interaction.categoriaSeleccionada}: ${_interaction.conceptController.text} (-\$${_interaction.amountController.text})'),
+        content: Text('Guardado: ${_interaction.conceptController.text} (-\$${monto.toStringAsFixed(2)})'),
         backgroundColor: _interaction.activeColor,
       ),
     );
@@ -158,6 +168,14 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
               ),
             ),
           ),
+          const SizedBox(height: 30),
+          const Text(
+            "Historial de movimientos",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          const SizedBox(height: 10),
+          HistorialList(), // <--- Aquí aparecerá la lista de gastos registrados
+          const SizedBox(height: 40),
           
           // Margen inferior extra de seguridad
           const SizedBox(height: 20),
