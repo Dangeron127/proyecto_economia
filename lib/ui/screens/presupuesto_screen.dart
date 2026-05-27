@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../interactions/presupuesto_view_model.dart'; // <--- Importamos su controlador correspondiente
+import '../../services/finance_service.dart'; // <--- Servicio de finanzas central
 
 class PresupuestoScreen extends StatefulWidget {
   const PresupuestoScreen({super.key});
@@ -11,7 +12,10 @@ class PresupuestoScreen extends StatefulWidget {
 class _PresupuestoScreenState extends State<PresupuestoScreen> {
   // Instanciamos el controlador de interacciones exclusivo de esta pantalla
   final PresupuestoViewModel _viewModel = PresupuestoViewModel();
-
+  
+  // Instanciamos el servicio (si no lo tenías ya mapeado aquí)
+  final FinanceService _financeService = FinanceService();
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -23,6 +27,76 @@ class _PresupuestoScreenState extends State<PresupuestoScreen> {
   void dispose() {
     _viewModel.dispose(); // Le delegamos la limpieza de memoria al controlador
     super.dispose();
+  }
+
+  // Insertamos la función del Pop-up idéntica a la del Home
+  void _mostrarFormularioIngreso(BuildContext context) {
+    final TextEditingController conceptController = TextEditingController();
+    final TextEditingController amountController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("✨ Nuevo Ingreso Extra", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: conceptController,
+                decoration: const InputDecoration(
+                  labelText: "Motivo (ej. Presupuesto extra, Beca, Venta)",
+                  prefixIcon: Icon(Icons.text_snippet),
+                ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: "Monto (\$)",
+                  prefixIcon: Icon(Icons.attach_money),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancelar", style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                double monto = double.tryParse(amountController.text) ?? 0.0;
+                if (conceptController.text.isNotEmpty && monto > 0) {
+                  
+                  // Guardamos en la memoria central
+                  _financeService.registrarIngreso(conceptController.text, monto);
+                  
+                  Navigator.pop(context);
+                  
+                  // ¡CRÍTICO! Esto refrescará el panel de control, recalculando el "Dinero Disponible"
+                  setState(() {}); 
+                  
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("¡Ingreso guardado y sumado al presupuesto! 📈"), 
+                      backgroundColor: Colors.green
+                    ),
+                  );
+                }
+              },
+              child: const Text("Guardar", style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -157,10 +231,7 @@ class _PresupuestoScreenState extends State<PresupuestoScreen> {
           height: 60,
           child: OutlinedButton.icon(
             onPressed: () {
-              // Interacción temporal de aviso al usuario
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Abriendo registro de ingreso extra...')),
-              );
+              _mostrarFormularioIngreso(context);
             },
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.green.shade700,

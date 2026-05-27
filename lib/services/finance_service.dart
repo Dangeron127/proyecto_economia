@@ -18,10 +18,12 @@ class FinanceService {
   double get saldoDisponible => (presupuestoInicial + ingresosExtra) - gastosAcumulados;
   double get racionDiaria => saldoDisponible / diasTotales;
 
+  // Lógica unificada para el estado de la mascota
   String get estadoMascota {
-    if (saldoDisponible <= 0) return 'hambriento';
-    double racionIdeal = presupuestoInicial / diasTotales;
-    if (racionDiaria < (racionIdeal * 0.5)) return 'preocupado';
+    if (!isConfigurado) return 'feliz'; // Estado por defecto antes de configurar
+    if (saldoDisponible <= 0) return 'triste'; // Sin saldo -> estado crítico
+    if (racionDiaria < umbralMinimoDiario) return 'triste';
+    if (racionDiaria < (umbralMinimoDiario * 1.5)) return 'preocupado';
     return 'feliz';
   }
 
@@ -39,6 +41,7 @@ List<Gasto> get historialGastos => List.unmodifiable(_historialGastos);
     isConfigurado = true; // <--- Se activa al registrar
   }
 
+  // (El getter `estadoMascota` fue unificado arriba.)
   void resetearTodo() {
     presupuestoInicial = 0.0;
     diasTotales = 1;
@@ -59,5 +62,9 @@ List<Gasto> get historialGastos => List.unmodifiable(_historialGastos);
     gastosAcumulados += monto; // Esto actualiza automáticamente tu saldo y ración diaria
   }
 
-  void registrarIngresoExtra(double monto) => ingresosExtra += monto;
+  //void registrarIngresoExtra(double monto) => ingresosExtra += monto;
+
+  void registrarIngreso(String concepto, double monto) {
+    ingresosExtra += monto;
+    }
 }

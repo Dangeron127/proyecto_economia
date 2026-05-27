@@ -4,6 +4,7 @@ import '../utils/navigation_utils.dart';
 import 'home_content.dart';              
 import 'expenses_screen.dart';           
 import 'presupuesto_screen.dart';
+//import '../components/mascota_panel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Lo convertimos en un "get" para poder inyectar la función de navegación
   List<Widget> get _views => [
     HomeContent(
-      // Esta es la magia: le pasamos una función que cambia al tab de Gastos (índice 2)
+      // le pasamos una función que cambia al tab de Gastos
       onBotonPanicoPresionado: () {
         setState(() {
           _selectedIndex = 2; 
@@ -49,6 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(width: 10),
         ],
       ),
+      // body: _selectedIndex == 0
+      //     ? Column(
+      //         children: [
+      //           MascotaPanel(), // <--- ¡Listo!
+      //           const SizedBox(height: 20),
+      //           Expanded(child: _views[0]),
+      //         ],
+      //       )
+      //     : _views[_selectedIndex],
       body: _views[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
