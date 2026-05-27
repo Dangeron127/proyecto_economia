@@ -7,27 +7,25 @@ class ExpensesViewModel {
   String tipoSeleccionado = 'Espontáneo'; 
   late String categoriaSeleccionada; 
 
-  // 1. Categorías de Espontáneos (Antojos/Salidas)
   final List<Map<String, dynamic>> spontaneousCategories = const [
-    {'name': 'Snacks/Antojos', 'icon': Icons.bakery_dining, 'color': Colors.orange, 'hint': 'Ej. Esquite, frappé, papitas...'},
-    {'name': 'Salidas/Fiesta', 'icon': Icons.celebration, 'color': Colors.pink, 'hint': 'Ej. Cover, alcohol, cena con amigos...'},
-    {'name': 'Compras/Plaza', 'icon': Icons.shopping_bag, 'color': Colors.blue, 'hint': 'Ej. Ropa, calzado, accesorios...'},
-    {'name': 'Plataformas/Juegos', 'icon': Icons.sports_esports, 'color': Colors.indigo, 'hint': 'Ej. Skin de juego, streaming...'},
+    {'name': 'Snacks/Antojos', 'icon': Icons.bakery_dining, 'color': Colors.orange, 'hint': 'Ej. Unos esquites, frappé...'},
+    {'name': 'Salidas/Fiesta', 'icon': Icons.celebration, 'color': Colors.pink, 'hint': 'Ej. Entrada al antro, cena...'},
+    {'name': 'Compras/Plaza', 'icon': Icons.shopping_bag, 'color': Colors.blue, 'hint': 'Ej. Ropa, unos tenis...'},
+    {'name': 'Juegos/Streaming', 'icon': Icons.sports_esports, 'color': Colors.indigo, 'hint': 'Ej. Una skin, Netflix...'},
   ];
 
-  // 2. Categorías de Fijos (Supervivencia/Obligaciones)
   final List<Map<String, dynamic>> fixedCategories = const [
-    {'name': 'Despensa', 'icon': Icons.shopping_cart, 'color': Colors.green, 'hint': 'Ej. Súper mensual, recaudería, carne...'},
-    {'name': 'Servicios Hogar', 'icon': Icons.bolt, 'color': Colors.amber, 'hint': 'Ej. Luz, agua, gas, internet, renta...'},
-    {'name': 'Transporte Diario', 'icon': Icons.directions_bus, 'color': Colors.teal, 'hint': 'Ej. Camión, taxi, pasajes...'},
-    {'name': 'Salud/Higiene', 'icon': Icons.medical_services, 'color': Colors.red, 'hint': 'Ej. Medicinas, pasta dental, jabón...'},
+    // 👉 ASEGURAMOS QUE SE LLAME "La Despensa" PARA EL IF MÁS ADELANTE
+    {'name': 'La Despensa', 'icon': Icons.shopping_cart, 'color': Colors.green, 'hint': 'Ej. El súper del mes, fruta...'},
+    {'name': 'Recibos/Servicios', 'icon': Icons.bolt, 'color': Colors.amber, 'hint': 'Ej. Luz, agua, internet...'},
+    {'name': 'Transporte Diario', 'icon': Icons.directions_bus, 'color': Colors.teal, 'hint': 'Ej. Pasajes de camión...'},
+    {'name': 'Salud e Higiene', 'icon': Icons.medical_services, 'color': Colors.red, 'hint': 'Ej. Medicinas, consultas...'},
   ];
 
   ExpensesViewModel() {
     categoriaSeleccionada = spontaneousCategories[0]['name'];
   }
 
-  // Getters dinámicos para la UI
   List<Map<String, dynamic>> get currentCategories =>
       tipoSeleccionado == 'Espontáneo' ? spontaneousCategories : fixedCategories;
 

@@ -3,6 +3,7 @@ import '../components/formulario_gastos.dart';
 import '../components/selector_tipo_gasto.dart';
 import '../interactions/expenses_view_model.dart';
 import '../logic/finance_manager.dart';
+import '../components/carrusel_supervivencia.dart';
 
 class ExpensesScreen extends StatefulWidget {
   const ExpensesScreen({super.key});
@@ -56,6 +57,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Validación que conecta la lógica interna con la vista
     final isEspontaneo = _interaction.tipoSeleccionado == 'Espontáneo';
 
     return SingleChildScrollView(
@@ -63,20 +65,20 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Títulos Dinámicos
+          // Títulos Dinámicos actualizados al lenguaje común
           Text(
-            isEspontaneo ? "Control de Antojos" : "Gastos de Obligación",
+            isEspontaneo ? "¡Momento de un Gustito!" : "Gastos para Sobrevivir",
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Text(
             isEspontaneo 
-                ? "Dinero destinado a diversión, salidas y cosas no vitales." 
-                : "Gastos fijos necesarios para mantener tu hogar y transporte diario.",
+                ? "Dinero destinado a pasarla chido, salidas y cosas no vitales." 
+                : "Pagos obligatorios que tienes que hacer sí o sí para estar al corriente.",
             style: const TextStyle(color: Colors.grey, fontSize: 13),
           ),
           const SizedBox(height: 20),
 
-          // 1. INDICADOR / SELECTOR PRINCIPAL (Espontáneo vs Fijo)
+          // 1. INDICADOR / SELECTOR PRINCIPAL
           SelectorTipoGasto(
             tipoSeleccionado: _interaction.tipoSeleccionado,
             onTipoCambiado: (nuevoTipo) {
@@ -87,7 +89,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ),
           const SizedBox(height: 25),
 
-          // Subtítulo de categorías
+          // Subtítulo de categorías dinámico
           Text(
             isEspontaneo ? "Selecciona tu gusto:" : "Selecciona la obligación:", 
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)
@@ -148,7 +150,13 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           ),
           const SizedBox(height: 25),
 
-          // 4. BOTÓN ACCIÓN DE GUARDADO
+          // 🌟 EL CARRUSEL (Reubicado antes del botón para que sea visible de inmediato)
+          if (!isEspontaneo && _interaction.categoriaSeleccionada == 'La Despensa') ...[
+            const CarruselSupervivencia(),
+            const SizedBox(height: 25),
+          ],
+
+          // 4. BOTÓN ACCIÓN DE GUARDADO (Texto dinámico)
           SizedBox(
             width: double.infinity,
             height: 52,
@@ -159,12 +167,15 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 elevation: 0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
               ),
-              child: const Text(
-                "Confirmar y Descontar", 
-                style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)
+              child: Text(
+                isEspontaneo ? "Registrar mi Gustito ✨" : "Confirmar Pago Obligatorio 🛡️", 
+                style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)
               ),
             ),
           ),
+          
+          // Margen inferior extra de seguridad
+          const SizedBox(height: 20),
         ],
       ),
     );
