@@ -17,20 +17,29 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
   final ExpensesViewModel _interaction = ExpensesViewModel();
   final FinanceService _financeService = FinanceService();
 
-  void _guardarGasto() {
+  Future<void> _guardarGasto() async {
     if (_interaction.conceptController.text.isEmpty || _interaction.amountController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor rellena los campos'), backgroundColor: Colors.orange),
       );
       return;
     }
-  double monto = double.tryParse(_interaction.amountController.text) ?? 0.0;
 
-  _financeService.registrarGasto(
-      _interaction.conceptController.text, 
-      monto, 
-      _interaction.categoriaSeleccionada
+    final double monto = double.tryParse(_interaction.amountController.text) ?? 0.0;
+    if (monto <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ingresa un monto numérico válido'), backgroundColor: Colors.red),
+      );
+      return;
+    }
+
+    await _financeService.registrarGasto(
+      _interaction.conceptController.text,
+      monto,
+      _interaction.categoriaSeleccionada,
     );
+
+    if (!mounted) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'ui/screens/home_screen.dart';
+import 'services/finance_service.dart';
+
 //Main Limpio
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FinanceService().init();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
