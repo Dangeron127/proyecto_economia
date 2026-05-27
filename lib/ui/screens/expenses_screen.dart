@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/formulario_gastos.dart';
 import '../components/selector_tipo_gasto.dart';
 import '../interactions/expenses_view_model.dart';
+import '../logic/finance_manager.dart';
 import '../components/carrusel_supervivencia.dart';
 import '../../services/finance_service.dart';
 import '../components/historial_list.dart';
